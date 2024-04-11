@@ -9,7 +9,6 @@ using namespace std;
 // compile and run on linux : g++ -c src/*cpp -std=c++14 -Wall -g -m64 && g++ *.o -o bin/debug/main && ./bin/debug/main
 
 
-
 Character player;
 Weapon playerWeapon;
 int maxHealth(100), maxMana(100);
@@ -18,8 +17,10 @@ void clearScreen() {
 	cout << "\033[2J\033[1;1H";
 }
 
-string coloredText(string text) {
-	string result = "\033[92m" + text + "\033[0m";
+string coloredText(string text, string color) {
+	string result;
+	if (color == "green") result = "\033[32m" + text + "\033[0m";
+	if (color == "red") result = "\033[31m" + text + "\033[0m";
 	return result;
 }
 
@@ -31,9 +32,9 @@ Character characterSelection(Character &player) {
 	cin >> name;
 	clearScreen();
 	cout << "What is your class?\n[" 
-	<< coloredText("1") << "] Swordsman\n["
-	<< coloredText("2") << "] Mage\n["
-	<< coloredText("3") << "] Tank" << endl;
+	<< coloredText("1", "green") << "] Swordsman\n["
+	<< coloredText("2", "green") << "] Mage\n["
+	<< coloredText("3", "green") << "] Tank" << endl;
 	cin >> choice;
 
 	switch (choice) {
