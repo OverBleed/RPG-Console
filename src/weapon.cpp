@@ -1,5 +1,5 @@
 #include <string>
-#include "weapon.h"
+#include "../include/weapon.h"
 
 std::string Weapon::getWeaponName() const{
 	return m_name;
@@ -9,7 +9,7 @@ std::string Weapon::getWeaponDescription() const{
 	return m_description;
 }
 
-int Weapon::getWeaponDamage() const{
+int Weapon::getWeaponDamage(){
 	return m_damage;
 }
 

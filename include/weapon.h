@@ -11,7 +11,7 @@ class Weapon
 	Weapon(std::string name, std::string description, int damage);
 	std::string getWeaponName() const;
 	std::string getWeaponDescription() const;
-	int getWeaponDamage() const;
+	int getWeaponDamage();
 	void changeWeapon(std::string name, std::string description, int damage);
 
 	private:
