@@ -21,6 +21,7 @@ string coloredText(string text, string color) {
 	string result;
 	if (color == "green") result = "\033[32m" + text + "\033[0m";
 	if (color == "red") result = "\033[31m" + text + "\033[0m";
+	if (color == "blue") result = "\033[34m" + text + "\033[0m";
 	return result;
 }
 
@@ -63,5 +64,5 @@ Character characterSelection(Character &player) {
 
 int main() {
 	characterSelection(player);
-	player.showStats(maxHealth, maxMana);
+	player.showStats();
 }
