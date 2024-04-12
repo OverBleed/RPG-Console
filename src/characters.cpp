@@ -39,10 +39,33 @@ std::string Character::getName() const{
 	return m_name;
 }
 
-void Character::createCharacter(std::string name, int health, int mana) {
+void Character::createCharacter(std::string name, int health, int mana, int playerClass) {
 	m_name = name;
 	m_maxHealth = health;
 	m_maxMana = mana;
+
+	switch (playerClass)
+	{
+		case 1:
+			m_baseHealth = 100;
+			m_baseMana = 100;
+			break;
+
+		case 2:
+			m_baseHealth = 80;
+			m_baseMana = 120;
+			break;
+
+		case 3:
+			m_baseHealth = 120;
+			m_baseMana = 80;
+			break;
+		
+		default:
+			m_baseHealth = 100;
+			m_baseMana = 100;
+			break;
+	}
 }
 
 void Character::showStats() {
@@ -54,8 +77,21 @@ void Character::showStats() {
 }
 
 void Character::restoreStats() {
-	m_health = m_health;
-	m_mana = m_mana;
+	m_health = m_maxHealth;
+	m_mana = m_maxMana;
+}
+
+void Character::giveExperience(int exp) {
+	m_exp += exp;
+}
+
+void Character::levelUp() {
+	int oldLevel = m_level;
+	m_level = floor(sqrt(m_exp/60 + 1));
+	if (oldLevel != m_level) {
+		m_maxHealth = floor(m_baseHealth * pow(1.09, m_level));
+		m_maxMana = floor(m_baseMana * pow(1.09, m_level));
+	}
 }
 
 // constructors
