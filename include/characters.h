@@ -16,7 +16,7 @@ class Character
 	void showStats();
 	void restoreStats(); // resets mana and health to their max
 
-	void giveExperience(int exp); // used for both enemy xp drop and xp gained by player upon winning fight
+	void giveExperience(int exp); // used for xp gained by player upon winning fight
 	void levelUp(); // check if there is a level up
 
 	// to see/check stuff
@@ -28,16 +28,16 @@ class Character
 
 	// rarely change
 	std::string m_name;
-	int m_level;
-	int m_maxHealth;
-	int m_maxMana;
-	int m_baseHealth;
-	int m_baseMana;
+	int signed m_level;
+	int signed m_maxHealth;
+	int signed m_maxMana;
+	int signed m_baseHealth;
+	int signed m_baseMana;
 
 	// often change
-	int m_health;
-	int m_mana;
-	int m_exp;
+	int signed m_health;
+	int signed m_mana;
+	int signed m_exp;
 };
 
 #endif

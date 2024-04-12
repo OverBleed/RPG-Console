@@ -39,6 +39,7 @@ std::string Character::getName() const{
 	return m_name;
 }
 
+// also changes base stats
 void Character::createCharacter(std::string name, int health, int mana, int playerClass) {
 	m_name = name;
 	m_maxHealth = health;
@@ -47,23 +48,23 @@ void Character::createCharacter(std::string name, int health, int mana, int play
 	switch (playerClass)
 	{
 		case 1:
-			m_baseHealth = 100;
-			m_baseMana = 100;
+			m_baseHealth = health;
+			m_baseMana = mana;
 			break;
 
 		case 2:
-			m_baseHealth = 80;
-			m_baseMana = 120;
+			m_baseHealth = health;
+			m_baseMana = mana;
 			break;
 
 		case 3:
-			m_baseHealth = 120;
-			m_baseMana = 80;
+			m_baseHealth = health;
+			m_baseMana = mana;
 			break;
 		
 		default:
-			m_baseHealth = 100;
-			m_baseMana = 100;
+			m_baseHealth = health;
+			m_baseMana = mana;
 			break;
 	}
 }

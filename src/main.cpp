@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <conio.h>
 #include "../include/characters.h"
 #include "../include/weapon.h"
 
@@ -13,10 +14,10 @@ using namespace std;
 
 Character player;
 Weapon playerWeapon;
-int maxHealth(100), maxMana(100);
 
 Character generalEnemy; // general means it will change based on what enemy the player is fighting
 Weapon generalEnemyWeapon;
+int signed enemyExpDrop;
 
 
 void clearScreen() {
@@ -38,37 +39,51 @@ void battleScreen(Character &player, Character &enemy) {
 }
 
 void battle(Character &player, Character &enemy, Weapon &p_weapon) {
-	battleScreen(player, enemy);
+	bool quit = false;
 
-	int choice;
+	do {
+		battleScreen(player, enemy);
 
-	cout << "\nWhat will you do?\n[" 
-	<< coloredText("1", "green") << "] Attack\n["
-	<< coloredText("2", "green") << "] Use spell\n["
-	<< coloredText("3", "green") << "] Use item\n["
-	<< coloredText("4", "green") << "] Run away" << endl;
-	cin >> choice;
+		int choice;
 
-	switch (choice)
-	{
-		case 1:
-			player.attack(enemy, p_weapon.getWeaponDamage());
-			break;
-		
-		default:
-			cout << "Feature not implemented yet" << endl;
-			break;
-	}
+		cout << "\nWhat will you do?\n[" 
+		<< coloredText("1", "green") << "] Attack\n["
+		<< coloredText("2", "green") << "] Use spell\n["
+		<< coloredText("3", "green") << "] Use item\n["
+		<< coloredText("4", "green") << "] Run away" << endl;
+		cin >> choice;
 
+		switch (choice)
+		{
+			case 1:
+				player.attack(enemy, p_weapon.getWeaponDamage());
+				break;
+			
+			default:
+				cout << "Feature not implemented yet" << endl;
+				getch();
+				break;
+		}
+
+		clearScreen();
+
+		if (enemy.isAlive() == false) {
+			quit = true;
+			cout << coloredText("You won!", "green") << endl;
+			player.giveExperience(enemyExpDrop);
+			player.levelUp();
+		} else if (player.isAlive() == false) {
+			quit = true;
+			cout << coloredText("You died...", "red") << endl;
+		}
+
+	} while (quit == false);
+
+	getch();
 	clearScreen();
-
-	if (enemy.isAlive() == false) {
-		player.giveExperience(250);
-		player.levelUp();
-	}
 }
 
-Character characterSelection(Character &player) {
+Character characterCreation(Character &player) {
 	clearScreen();
 	string name;
 	int choice = 1;
@@ -87,18 +102,15 @@ Character characterSelection(Character &player) {
 
 	switch (choice) {
 		case 1:
+			player.createCharacter(name, 100, 100, choice);
 			break;
 
 		case 2:
 			player.createCharacter(name, 80, 120, choice);
-			maxHealth = 80;
-			maxMana = 120;
 			break;
 
 		case 3:
 			player.createCharacter(name, 120, 80, choice);
-			maxHealth = 120;
-			maxMana = 80;
 			break;
 
 		default:
@@ -108,15 +120,39 @@ Character characterSelection(Character &player) {
 	return player;
 }
 
+Character enemyGeneration(Character &enemy, int enemyType) {
+	switch (enemyType) {
+	case 1: // goblin
+		enemy.createCharacter("Goblin", 100, 100, 1);
+		enemyExpDrop = 10;
+		break;
+	
+	case 2: // red goblin
+		enemy.createCharacter("Red goblin", 130, 120, 1);
+		enemyExpDrop = 20;
+		break;
+
+	case 3:
+		enemy.createCharacter("Squeleton", 150, 150, 1);
+		enemyExpDrop = 30;
+		break;
+	
+	default:
+		enemy.createCharacter("???", 999999, 999999, 1);
+		break;
+	}
+
+	return enemy;
+	
+}
 
 int main() {
-	characterSelection(player);
-	generalEnemy.createCharacter("goblin", 100, 100, 1);
-	generalEnemy.restoreStats();
+	characterCreation(player);
+	enemyGeneration(generalEnemy, 1);
 	player.restoreStats();
+	generalEnemy.restoreStats();
 
+	battle(player, generalEnemy, playerWeapon);
 
-	player.giveExperience(250);
-	player.levelUp();
 	player.showStats();
 }
