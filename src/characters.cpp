@@ -3,7 +3,7 @@
 #include "../include/characters.h"
 
 
-std::string coloredText1(std::string text, std::string color) {
+std::string coloredText(std::string text, std::string color) {
 	std::string result;
 	if (color == "green") result = "\033[32m" + text + "\033[0m";
 	if (color == "red") result = "\033[31m" + text + "\033[0m";
@@ -71,8 +71,8 @@ void Character::createCharacter(std::string name, int health, int mana, int play
 
 void Character::showStats() {
 	std::cout << m_name << std::endl
-	<< "HP : " << coloredText1(std::to_string(m_health), "red") << " / " << coloredText1(std::to_string(m_maxHealth), "red") << std::endl
-	<< "Mana : " << coloredText1(std::to_string(m_mana), "blue") << " / " << coloredText1(std::to_string(m_maxMana), "blue") << std::endl
+	<< "HP : " << coloredText(std::to_string(m_health), "red") << " / " << coloredText(std::to_string(m_maxHealth), "red") << std::endl
+	<< "Mana : " << coloredText(std::to_string(m_mana), "blue") << " / " << coloredText(std::to_string(m_maxMana), "blue") << std::endl
 	<< "Lvl : " << m_level << std::endl
 	<< "Exp : " << m_exp << std::endl;
 }

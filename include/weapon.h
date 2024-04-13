@@ -2,6 +2,7 @@
 #define DEF_WEAPON
 
 #include <string>
+#include <iostream>
 
 class Weapon
 {
@@ -10,7 +11,7 @@ class Weapon
 	Weapon();
 	Weapon(std::string name, std::string description, int damage);
 	std::string getWeaponName() const;
-	std::string getWeaponDescription() const;
+	void displayWeaponStats();
 	int getWeaponDamage();
 	void changeWeapon(std::string name, std::string description, int damage);
 

@@ -24,13 +24,6 @@ void clearScreen() {
 	cout << "\033[2J\033[1;1H";
 }
 
-string coloredText(string text, string color) {
-	string result;
-	if (color == "green") result = "\033[32m" + text + "\033[0m";
-	if (color == "red") result = "\033[31m" + text + "\033[0m";
-	if (color == "blue") result = "\033[34m" + text + "\033[0m";
-	return result;
-}
 
 void battleScreen(Character &player, Character &enemy) {
 	enemy.showStats();
@@ -38,7 +31,44 @@ void battleScreen(Character &player, Character &enemy) {
 	player.showStats();
 }
 
-void battle(Character &player, Character &enemy, Weapon &p_weapon) {
+// add armor when it is added
+void displayInventory(Character &character, Weapon &weapon) {
+	clearScreen();
+	character.showStats();
+	cout << endl;
+	weapon.displayWeaponStats();
+	cout << endl << "[" << coloredText("ENTER", "green") << "]" << endl;
+	getch();
+	clearScreen();
+}
+
+Character enemyGeneration(Character &enemy, int enemyType) {
+	switch (enemyType) {
+	case 1: // goblin
+		enemy.createCharacter("Goblin", 100, 100, 1);
+		enemyExpDrop = 25;
+		break;
+	
+	case 2: // red goblin
+		enemy.createCharacter("Red goblin", 130, 120, 1);
+		enemyExpDrop = 40;
+		break;
+
+	case 3:
+		enemy.createCharacter("Squeleton", 150, 150, 1);
+		enemyExpDrop = 60;
+		break;
+	
+	default:
+		enemy.createCharacter("???", 999999, 999999, 1);
+		break;
+	}
+
+	return enemy;
+	
+}
+
+void battle(Character &player, Character &enemy, Weapon &p_weapon, Weapon &e_weapon) {
 	bool quit = false;
 
 	do {
@@ -60,7 +90,7 @@ void battle(Character &player, Character &enemy, Weapon &p_weapon) {
 				break;
 			
 			default:
-				cout << "Feature not implemented yet" << endl;
+				cout << "Feature not implemented yet..." << " [" << coloredText("ENTER", "green") << "]" << endl;
 				getch();
 				break;
 		}
@@ -81,6 +111,57 @@ void battle(Character &player, Character &enemy, Weapon &p_weapon) {
 
 	getch();
 	clearScreen();
+}
+
+// the menu that the player will have access to whenever not in a fight
+
+void menu() {
+	int choice;
+	bool inMenu = true;
+
+	do {
+		cout << "What will you do?\n[" 
+		<< coloredText("1", "green") << "] Stats / Inventory\n["
+		<< coloredText("2", "green") << "] Fight monsters in area\n["
+		<< coloredText("3", "green") << "] Travel\n["
+		<< coloredText("4", "green") << "] Visit shop" << endl;
+		cin >> choice;
+		clearScreen();
+
+		switch (choice)
+		{
+			case 1:
+				displayInventory(player, playerWeapon);
+				break;
+			
+			case 2:
+				enemyGeneration(generalEnemy, 1);
+				player.restoreStats();
+				generalEnemy.restoreStats();
+				cout << "A wild " << coloredText(generalEnemy.getName(), "red") << " has appeared!" << endl;
+				getch();
+				clearScreen();
+
+				battle(player, generalEnemy, playerWeapon, generalEnemyWeapon);
+				break;
+
+			case 3:
+				cout << "Feature not implemented yet... [" << coloredText("ENTER", "green") << "]" << endl;
+				getch();
+				clearScreen();
+				break;
+
+			case 4:
+				cout << "Feature not implemented yet... [" << coloredText("ENTER", "green") << "]" << endl;
+				clearScreen();
+				getch();
+				break;
+
+			
+			default:
+				break;
+		}
+	} while (inMenu == true);
 }
 
 Character characterCreation(Character &player) {
@@ -120,39 +201,8 @@ Character characterCreation(Character &player) {
 	return player;
 }
 
-Character enemyGeneration(Character &enemy, int enemyType) {
-	switch (enemyType) {
-	case 1: // goblin
-		enemy.createCharacter("Goblin", 100, 100, 1);
-		enemyExpDrop = 10;
-		break;
-	
-	case 2: // red goblin
-		enemy.createCharacter("Red goblin", 130, 120, 1);
-		enemyExpDrop = 20;
-		break;
-
-	case 3:
-		enemy.createCharacter("Squeleton", 150, 150, 1);
-		enemyExpDrop = 30;
-		break;
-	
-	default:
-		enemy.createCharacter("???", 999999, 999999, 1);
-		break;
-	}
-
-	return enemy;
-	
-}
-
 int main() {
 	characterCreation(player);
-	enemyGeneration(generalEnemy, 1);
 	player.restoreStats();
-	generalEnemy.restoreStats();
-
-	battle(player, generalEnemy, playerWeapon);
-
-	player.showStats();
+	menu();
 }

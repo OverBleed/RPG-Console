@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include "../include/weapon.h"
 
@@ -5,8 +6,11 @@ std::string Weapon::getWeaponName() const{
 	return m_name;
 }
 
-std::string Weapon::getWeaponDescription() const{
-	return m_description;
+void Weapon::displayWeaponStats(){
+	std::cout << "Weapon : " << std::endl;
+	std::cout << "\e[1m" << m_name << "\e[0m" << std::endl;
+	std::cout << "Damage : \033[31m" << m_damage << "\033[0m" << std::endl;
+	std::cout << "\e[3m" << m_description << "\e[0m" << std::endl;
 }
 
 int Weapon::getWeaponDamage(){
@@ -23,7 +27,7 @@ void Weapon::changeWeapon(std::string name, std::string description, int damage)
 
 Weapon::Weapon() {
 	m_name = "Rusty sword";
-	m_description = "desc";
+	m_description = "A very rusty sword. Be carefull, you could catch tetanus!";
 	m_damage = 10;
 }
 

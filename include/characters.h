@@ -40,4 +40,6 @@ class Character
 	int signed m_exp;
 };
 
+std::string coloredText(std::string text, std::string color);
+
 #endif
