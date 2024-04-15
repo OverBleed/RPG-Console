@@ -8,9 +8,9 @@
 using namespace std;
 
 
-// compile and run on windows (VS Code) : g++ -c src/*cpp -std=c++14 -Wall -g -m64 ; g++ *.o -o bin/debug/main ; ./bin/debug/main
-// compile and run on linux : g++ -c src/*cpp -std=c++14 -Wall -g -m64 && g++ *.o -o bin/debug/main && ./bin/debug/main
-// g++ -c src/*cpp -std=c++14 -O3 -g -m64 ; g++ *.o -o bin/release/main ; ./bin/release/main
+// compile and run on windows (VS Code) : g++ -c src/*cpp -std=c++20 -Wall -g -m64 ; g++ *.o -o bin/debug/main ; ./bin/debug/main
+// compile and run on linux : g++ -c src/*cpp -std=c++20 -Wall -g -m64 && g++ *.o -o bin/debug/main && ./bin/debug/main
+//  compile and run (release) : g++ -c src/*cpp -std=c++20 -O3 -g -m64 ; g++ *.o -o bin/release/main ; ./bin/release/main
 
 
 Character player;
@@ -120,6 +120,7 @@ void battle(Character &player, Character &enemy, Weapon &p_weapon, Weapon &e_wea
 // the menu that the player will have access to whenever not in a fight
 
 void menu() {
+	clearScreen();
 	int choice;
 	bool inMenu = true;
 
@@ -226,11 +227,14 @@ void mainMenu() {
 		case 1:
 			characterCreation(player);
 			player.saveFile();
+			cout << "Saving..." << endl;
+			player.restoreStats();
 			menu();
 			break;
 
 		case 2:
 			player.loadFile();
+			cout << "Loading..." << endl;
 			player.levelUp();
 			menu();
 			break;
@@ -241,6 +245,7 @@ void mainMenu() {
 		default:
 			break;
 	}
+	player.restoreStats();
 }
 
 
