@@ -157,6 +157,21 @@ void Character::loadFile() {
 	saveFile.close();
 }
 
+void Character::saveFile() {
+	remove("save.txt");
+	std::ofstream saveFile("save.txt");
+	std::string writeStr = "";
+	
+	saveFile << m_name << std::endl
+	<< m_maxHealth << std::endl
+	<< m_maxMana << std::endl
+	<< m_baseHealth << std::endl
+	<< m_baseMana << std::endl
+	<< m_exp << std::endl;
+
+	saveFile.close();
+}
+
 // constructors
 
 Character::Character() {

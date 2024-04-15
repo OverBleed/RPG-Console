@@ -83,11 +83,8 @@ void battle(Character &player, Character &enemy, Weapon &p_weapon, Weapon &e_wea
 
 		int choice;
 
-		cout << "\nWhat will you do?\n[" 
-		<< coloredText("1", "green") << "] Attack\n["
-		<< coloredText("2", "green") << "] Use spell\n["
-		<< coloredText("3", "green") << "] Use item\n["
-		<< coloredText("4", "green") << "] Run away" << endl;
+		cout << "\nWhat will you do?\n";
+		choiceSelector({"Attack", "Spell", "Item", "Run away"});
 		cin >> choice;
 
 		switch (choice)
@@ -127,12 +124,8 @@ void menu() {
 	bool inMenu = true;
 
 	do {
-		cout << "What will you do?\n[" 
-		<< coloredText("1", "green") << "] Stats / Inventory\n["
-		<< coloredText("2", "green") << "] Fight monsters in area\n["
-		<< coloredText("3", "green") << "] Travel\n["
-		<< coloredText("4", "green") << "] Visit shop\n["
-		<< coloredText("5", "green") << "] Save game" << endl;
+		cout << "What will you do?\n";
+		choiceSelector({"Stats / Inventory", "Fight monsters in area", "Travel", "Visit shop", "Save game"});
 		cin >> choice;
 		clearScreen();
 
@@ -166,7 +159,8 @@ void menu() {
 				break;
 
 			case 5:
-				cout << "Feature not implemented yet... [" << coloredText("ENTER", "green") << "]" << endl;
+				player.saveFile();
+				cout << "Saved successfully! [" << coloredText("ENTER", "green") << "]" << endl;
 				getch();
 				clearScreen();
 				break;
@@ -177,30 +171,17 @@ void menu() {
 	} while (inMenu == true);
 }
 
-void mainMenu() {
-	// need to figure out how to show these
-	// cout << "██████  ██████   ██████       ██████  ██████  ███    ██ ███████  ██████  ██      ███████" << endl <<
-	// "██   ██ ██   ██ ██           ██      ██    ██ ████   ██ ██      ██    ██ ██      ██" << endl <<
-	// "██████  ██████  ██   ███     ██      ██    ██ ██ ██  ██ ███████ ██    ██ ██      █████" << endl <<
-	// "██   ██ ██      ██    ██     ██      ██    ██ ██  ██ ██      ██ ██    ██ ██      ██" << endl <<
-	// "██   ██ ██       ██████       ██████  ██████  ██   ████ ███████  ██████  ███████ ███████" <<endl;
-
-	vector<string> a = {"New game", "Continue", "Quit"};
-	choiceSelector(a);
-
-}
 
 Character characterCreation(Character &player) {
 	clearScreen();
 	string name;
 	int choice = 1;
-	vector<string> vect = {"Swordsman", "Mage", "Tank"};
 
 	cout << "What is your name? ";
 	cin >> name;
 	clearScreen();
 	cout << "What is your class?\n" << endl;
-	choiceSelector(vect);
+	choiceSelector({"Swordsman", "Mage", "Tank"});
 	cin >> choice;
 	clearScreen();
 
@@ -227,7 +208,42 @@ Character characterCreation(Character &player) {
 	return player;
 }
 
+void mainMenu() {
+	// need to figure out how to show these
+	// cout << "██████  ██████   ██████       ██████  ██████  ███    ██ ███████  ██████  ██      ███████" << endl <<
+	// "██   ██ ██   ██ ██           ██      ██    ██ ████   ██ ██      ██    ██ ██      ██" << endl <<
+	// "██████  ██████  ██   ███     ██      ██    ██ ██ ██  ██ ███████ ██    ██ ██      █████" << endl <<
+	// "██   ██ ██      ██    ██     ██      ██    ██ ██  ██ ██      ██ ██    ██ ██      ██" << endl <<
+	// "██   ██ ██       ██████       ██████  ██████  ██   ████ ███████  ██████  ███████ ███████" <<endl;
+
+
+	int choice;
+	choiceSelector({"New game", "Continue", "Quit"});
+	cin >> choice;
+
+	switch (choice)
+	{
+		case 1:
+			characterCreation(player);
+			player.saveFile();
+			menu();
+			break;
+
+		case 2:
+			player.loadFile();
+			player.levelUp();
+			menu();
+			break;
+		
+		case 3:
+			break;
+		
+		default:
+			break;
+	}
+}
+
+
 int main() {
-	// mainMenu();
-	characterCreation(player);
+	mainMenu();
 }

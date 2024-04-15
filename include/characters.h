@@ -21,6 +21,7 @@ class Character
 	void levelUp(); // check if there is a level up
 
 	void loadFile();
+	void saveFile();
 
 	// to see/check stuff
 	bool isAlive() const;
