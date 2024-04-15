@@ -1,10 +1,12 @@
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "../include/characters.h"
 
 
 std::string coloredText(std::string text, std::string color) {
 	std::string result;
+
 	if (color == "green") result = "\033[32m" + text + "\033[0m";
 	if (color == "red") result = "\033[31m" + text + "\033[0m";
 	if (color == "blue") result = "\033[34m" + text + "\033[0m";
@@ -93,6 +95,66 @@ void Character::levelUp() {
 		m_maxHealth = floor(m_baseHealth * pow(1.09, m_level));
 		m_maxMana = floor(m_baseMana * pow(1.09, m_level));
 	}
+}
+
+void Character::loadFile() {
+	std::ifstream saveFile("save.txt");
+	char readChar;
+	std::string readStr = "";
+	bool isString = true;
+	int count = 0;
+
+	while (saveFile.get(readChar)) {
+		if (isString == true) {
+			readStr += readChar;
+			if (readChar == '\n') {
+				m_name = readStr;
+				readStr = "";
+				isString = false;
+			}
+		}
+		if (isString == false) {
+			readStr += readChar;
+
+			if (readStr == "\n") {
+				readStr = "";
+			}
+			if (readChar == '\n' && readStr != "\n" && readStr != "") {
+				switch (count)
+				{
+					case 0:
+						m_maxHealth = stoi(readStr);
+						count++;
+						break;
+					
+					case 1:
+						m_maxMana = stoi(readStr);
+						count++;
+						break;
+
+					case 2:
+						m_baseHealth = stoi(readStr);
+						count++;
+						break;
+					
+					case 3:
+						m_baseMana = stoi(readStr);
+						count++;
+						break;
+
+					case 4:
+						m_exp = stoi(readStr);
+						count++;
+						break;
+
+					default:
+						break;
+				}
+				readStr = "";
+			}
+		}
+	}
+	saveFile.close();
 }
 
 // constructors

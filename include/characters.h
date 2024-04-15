@@ -3,6 +3,7 @@
 
 #include <string>
 #include <cmath>
+#include <fstream>
 
 class Character
 {
@@ -19,6 +20,8 @@ class Character
 	void giveExperience(int exp); // used for xp gained by player upon winning fight
 	void levelUp(); // check if there is a level up
 
+	void loadFile();
+
 	// to see/check stuff
 	bool isAlive() const;
 	int getLifeLeft() const;
@@ -28,7 +31,6 @@ class Character
 
 	// rarely change
 	std::string m_name;
-	int signed m_level;
 	int signed m_maxHealth;
 	int signed m_maxMana;
 	int signed m_baseHealth;
@@ -37,6 +39,7 @@ class Character
 	// often change
 	int signed m_health;
 	int signed m_mana;
+	int signed m_level;
 	int signed m_exp;
 };
 

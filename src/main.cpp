@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <conio.h>
+#include <vector>
 #include "../include/characters.h"
 #include "../include/weapon.h"
 
@@ -29,6 +30,12 @@ void battleScreen(Character &player, Character &enemy) {
 	enemy.showStats();
 	cout << "\n<===================>\n" << endl;
 	player.showStats();
+}
+
+void choiceSelector(vector<string> list) {
+	for (int i = 1; i <= list.size(); i++) {
+		cout << "[" << coloredText(to_string(i), "green") << "] " << list[i-1] << endl;
+	}
 }
 
 // add armor when it is added
@@ -124,7 +131,8 @@ void menu() {
 		<< coloredText("1", "green") << "] Stats / Inventory\n["
 		<< coloredText("2", "green") << "] Fight monsters in area\n["
 		<< coloredText("3", "green") << "] Travel\n["
-		<< coloredText("4", "green") << "] Visit shop" << endl;
+		<< coloredText("4", "green") << "] Visit shop\n["
+		<< coloredText("5", "green") << "] Save game" << endl;
 		cin >> choice;
 		clearScreen();
 
@@ -153,28 +161,46 @@ void menu() {
 
 			case 4:
 				cout << "Feature not implemented yet... [" << coloredText("ENTER", "green") << "]" << endl;
-				clearScreen();
 				getch();
+				clearScreen();
 				break;
 
-			
+			case 5:
+				cout << "Feature not implemented yet... [" << coloredText("ENTER", "green") << "]" << endl;
+				getch();
+				clearScreen();
+				break;
+
 			default:
 				break;
 		}
 	} while (inMenu == true);
 }
 
+void mainMenu() {
+	// need to figure out how to show these
+	// cout << "██████  ██████   ██████       ██████  ██████  ███    ██ ███████  ██████  ██      ███████" << endl <<
+	// "██   ██ ██   ██ ██           ██      ██    ██ ████   ██ ██      ██    ██ ██      ██" << endl <<
+	// "██████  ██████  ██   ███     ██      ██    ██ ██ ██  ██ ███████ ██    ██ ██      █████" << endl <<
+	// "██   ██ ██      ██    ██     ██      ██    ██ ██  ██ ██      ██ ██    ██ ██      ██" << endl <<
+	// "██   ██ ██       ██████       ██████  ██████  ██   ████ ███████  ██████  ███████ ███████" <<endl;
+
+	vector<string> a = {"New game", "Continue", "Quit"};
+	choiceSelector(a);
+
+}
+
 Character characterCreation(Character &player) {
 	clearScreen();
 	string name;
 	int choice = 1;
+	vector<string> vect = {"Swordsman", "Mage", "Tank"};
+
 	cout << "What is your name? ";
 	cin >> name;
 	clearScreen();
-	cout << "What is your class?\n[" 
-	<< coloredText("1", "green") << "] Swordsman\n["
-	<< coloredText("2", "green") << "] Mage\n["
-	<< coloredText("3", "green") << "] Tank" << endl;
+	cout << "What is your class?\n" << endl;
+	choiceSelector(vect);
 	cin >> choice;
 	clearScreen();
 
@@ -202,7 +228,6 @@ Character characterCreation(Character &player) {
 }
 
 int main() {
+	// mainMenu();
 	characterCreation(player);
-	player.restoreStats();
-	menu();
 }
