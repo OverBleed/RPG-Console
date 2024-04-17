@@ -11,8 +11,9 @@ class Character
 
 	Character();
 	void createCharacter(std::string name, int health, int mana, int playerClass);
-	void receiveDamage(int damage);
+	void receiveDamage(int damage); // also used to heal, be using negative value
 	void attack(Character &target, int damage);
+	void useSpell(int mana); // will just consume mana, or restore it
 
 	void showStats();
 	void restoreStats(); // resets mana and health to their max
@@ -26,6 +27,8 @@ class Character
 	// to see/check stuff
 	bool isAlive() const;
 	int getLifeLeft() const;
+	int getMaxHealth() const;
+	int getMaxMana() const;
 	std::string getName() const;
 
 	private:

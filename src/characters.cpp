@@ -18,6 +18,18 @@ void Character::receiveDamage(int damage) {
 
 	if (m_health < 0) {
 		m_health = 0;
+	} else if (m_health > m_maxHealth) {
+		m_health = m_maxHealth;
+	}
+}
+
+void Character::useSpell(int mana) {
+	m_mana -= mana;
+
+	if (m_mana < 0) {
+		m_mana = 0;
+	} else if (m_mana > m_maxMana) {
+		m_mana = m_maxMana;
 	}
 }
 
@@ -39,6 +51,14 @@ int Character::getLifeLeft() const{
 
 std::string Character::getName() const{
 	return m_name;
+}
+
+int Character::getMaxHealth() const {
+	return m_maxHealth;
+}
+
+int Character::getMaxMana() const {
+	return m_maxMana;
 }
 
 // also changes base stats

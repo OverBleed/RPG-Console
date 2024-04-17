@@ -2,8 +2,12 @@
 #include <string>
 #include <conio.h>
 #include <vector>
+#include <cmath>
+#include <cstdlib>
+
 #include "../include/characters.h"
 #include "../include/weapon.h"
+#include "../include/spells.h"
 
 using namespace std;
 
@@ -75,6 +79,39 @@ Character enemyGeneration(Character &enemy, int enemyType) {
 	
 }
 
+void chooseSpell(Character &player) {
+	int signed choice;
+
+	cout << "What spell will you choose?\n" << endl;
+	choiceSelector({"Healing"});
+	cin >> choice;
+
+	switch (choice)
+	{
+	case 1:
+		healing(player);
+		break;
+	
+	default:
+		break;
+	}
+	clearScreen();
+}
+
+void enemyAI(Character &enemy, Weapon &weapon) {
+	float lifePercent = float(enemy.getLifeLeft()) / enemy.getMaxHealth(); // actually not percent (between 0 and 1)
+	int chancetoHeal = floor(exp(-10 * pow(lifePercent, 2))) * 100;
+	int rng = rand() % 100; // probability of healing is (in percent)
+	cout << endl << lifePercent << " " << enemy.getLifeLeft() << " " << enemy.getMaxHealth() << endl;
+	getch();
+
+	if (rng < chancetoHeal) {
+		healing(enemy);
+	} else {
+		enemy.attack(player, weapon.getWeaponDamage());
+	}
+}
+
 void battle(Character &player, Character &enemy, Weapon &p_weapon, Weapon &e_weapon) {
 	bool quit = false;
 
@@ -92,12 +129,19 @@ void battle(Character &player, Character &enemy, Weapon &p_weapon, Weapon &e_wea
 			case 1:
 				player.attack(enemy, p_weapon.getWeaponDamage());
 				break;
+
+			case 2:
+				clearScreen();
+				chooseSpell(player);
+				break;
 			
 			default:
 				cout << "Feature not implemented yet..." << " [" << coloredText("ENTER", "green") << "]" << endl;
 				getch();
 				break;
 		}
+
+		enemyAI(generalEnemy, generalEnemyWeapon);
 
 		clearScreen();
 
@@ -116,6 +160,7 @@ void battle(Character &player, Character &enemy, Weapon &p_weapon, Weapon &e_wea
 	getch();
 	clearScreen();
 }
+
 
 // the menu that the player will have access to whenever not in a fight
 
@@ -171,7 +216,6 @@ void menu() {
 		}
 	} while (inMenu == true);
 }
-
 
 Character characterCreation(Character &player) {
 	clearScreen();
